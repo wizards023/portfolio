@@ -561,14 +561,14 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
     </div>
 
     <div class="filters" id="filters">
-      <div class="f-row" id="rowCats" role="group" aria-label="作品大类筛选"></div>
-      <div class="f-row f-subrow" id="rowSubs" role="group" aria-label="细分方向筛选"></div>
-      <div class="f-row f-tagrow" id="rowTags" role="group" aria-label="细分品类筛选"></div>
-      <div class="f-row" id="rowSearch">
+      <div class="f-row" id="rowCats" role="group" aria-label="作品大类筛选">
+        <div id="catsWrap" style="display:contents"></div>
         <label class="f-search">
           <input type="search" id="searchInput" placeholder="搜索作品 / 品类…" aria-label="搜索作品">
         </label>
       </div>
+      <div class="f-row f-subrow" id="rowSubs" role="group" aria-label="细分方向筛选"></div>
+      <div class="f-row f-tagrow" id="rowTags" role="group" aria-label="细分品类筛选"></div>
     </div>
 
     <div class="grid" id="grid"></div>
@@ -797,7 +797,7 @@ const tagCount = t => WORKS.filter(w => w.tag===t).length;
 
 /* ---- 筛选栏渲染 ---- */
 function renderCats(){
-  $('#rowCats').innerHTML = Object.entries(CATS).map(([k,c]) => {
+  $('#catsWrap').innerHTML = Object.entries(CATS).map(([k,c]) => {
     const on = state.cat===k;
     return `<button class="chip cat ${on?'on':''}" data-cat="${k}" style="--cat:${c.color}"><span>${c.label}</span><span class="cnt">${fmt(catCount(k))}</span></button>`;
   }).join('');
