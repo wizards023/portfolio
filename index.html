@@ -97,14 +97,22 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   background:radial-gradient(closest-side,rgba(217,255,63,.14),transparent);
   pointer-events:none;
 }
-.hero-grid{display:grid;grid-template-columns:1.45fr .55fr;gap:clamp(24px,4vw,72px);align-items:end;position:relative;z-index:1}
-.hero-eyebrow{
-  font-family:var(--font-mono);font-size:13px;letter-spacing:.2em;color:var(--muted);
-  display:flex;align-items:center;gap:12px;margin-bottom:26px;
+.hero-lens{
+  position:absolute;right:-120px;bottom:-150px;width:560px;height:560px;
+  color:var(--acid);pointer-events:none;opacity:.5;
+  animation:spin 60s linear infinite;
 }
-.hero-eyebrow::before{content:"";width:34px;height:2px;background:var(--acid)}
+.hero-lens svg{width:100%;height:100%}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-grid{display:grid;grid-template-columns:1.45fr .55fr;gap:clamp(24px,4vw,72px);align-items:end;position:relative;z-index:1}
+.hero-main{position:relative;padding-left:clamp(20px,4vw,46px)}
+.hero-eyebrow{
+  position:absolute;left:0;top:6px;writing-mode:vertical-rl;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.42em;
+  color:var(--muted);text-transform:uppercase;
+}
 .hero-title{
-  font-size:clamp(3rem,9vw,7.6rem);
+  font-size:clamp(2.8rem,6.6vw,6.4rem);
   font-weight:900;line-height:1.04;letter-spacing:-.02em;
 }
 .hero-title .t-1{display:block}
@@ -112,13 +120,14 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   display:block;color:transparent;
   -webkit-text-stroke:2px var(--acid);
 }
-.hero-sub{margin-top:28px;max-width:34em;color:var(--muted);font-size:16px}
+.hero-sub{margin-top:26px;max-width:32em;color:var(--muted);font-size:16px}
 .hero-byline{
   margin-top:18px;font-family:var(--font-mono);font-size:13px;letter-spacing:.18em;
   color:var(--acid);text-transform:lowercase;
 }
 .hero-side{padding-bottom:8px;display:flex;gap:18px;align-items:flex-start;justify-content:flex-end}
-.hs-col{display:flex;flex-direction:column;gap:26px;align-items:center;writing-mode:vertical-rl}
+.hs-col{display:flex;flex-direction:column;gap:26px;align-items:center}
+.hs-col span{writing-mode:vertical-rl}
 .hs-words span{font-family:var(--font-mono);font-size:11px;letter-spacing:.34em;color:var(--muted)}
 .hs-nums span{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--acid)}
 .hero-name{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;letter-spacing:.02em}
@@ -182,14 +191,28 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .chip.cat.on{background:var(--cat);color:var(--ink);border-color:var(--cat)}
 .chip.sub.on{background:var(--sub);color:var(--ink);border-color:var(--sub)}
 .chip.tag.on{background:var(--tag);color:var(--ink);border-color:var(--tag)}
-.f-search{margin-left:auto}
+.f-search{margin-left:auto;display:flex;align-items:center;gap:14px}
 .f-search input{
   background:var(--ink2);border:2px solid var(--line);color:var(--paper);
-  padding:14px 20px;font-size:26px;width:320px;outline:none;
+  padding:12px 18px;font-size:20px;width:280px;outline:none;display:none;
   transition:border-color .2s;
 }
+.filters.search-open .f-search input{display:block}
 .f-search input:focus{border-color:var(--acid)}
 .f-search input::placeholder{color:var(--muted)}
+.f-search-toggle{
+  flex:none;width:44px;height:44px;border:1px solid var(--line);color:var(--muted);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;cursor:pointer;background:transparent;
+}
+.f-search-toggle:hover{border-color:var(--acid);color:var(--acid)}
+.f-search-toggle svg{width:20px;height:20px}
+.f-deco{
+  display:flex;flex-direction:column;gap:10px;align-items:center;
+  writing-mode:vertical-rl;font-family:var(--font-mono);
+  font-size:10px;letter-spacing:.4em;color:var(--muted);opacity:.55;
+  text-transform:uppercase;margin-left:6px;user-select:none;
+}
 .f-subrow{display:none}
 .f-subrow.show{display:flex}
 .f-tagrow{display:none}
@@ -352,24 +375,24 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   padding:4px 9px;border:1px solid var(--line);text-transform:lowercase;
 }
 .card-idx{
-  position:absolute;left:12px;top:10px;
-  font-family:var(--font-mono);font-size:26px;font-weight:700;
+  position:absolute;left:14px;top:12px;
+  font-family:var(--font-mono);font-size:30px;font-weight:700;
   color:transparent;-webkit-text-stroke:1px var(--cat);
   opacity:.9;line-height:1;
 }
 .card-side{
-  position:absolute;left:14px;top:48px;
-  font-family:var(--font-mono);font-size:10px;letter-spacing:.3em;
+  position:absolute;left:17px;top:56px;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.3em;
   color:var(--cat);writing-mode:vertical-rl;opacity:.9;
 }
-.card-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:9px;flex:1}
-.card-meta{display:flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.card-body{padding:22px 24px 24px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card-meta{display:flex;align-items:center;gap:14px;font-family:var(--font-mono);font-size:13px;letter-spacing:.06em;color:var(--muted)}
 .card-meta .tag{
   background:var(--cat);color:var(--ink);font-weight:700;
-  padding:3px 9px;font-size:11px;letter-spacing:.04em;
+  padding:4px 11px;font-size:12px;letter-spacing:.04em;
 }
-.card-title{font-size:19px;font-weight:900;line-height:1.35;letter-spacing:.01em}
-.card-desc{color:var(--muted);font-size:13px;line-height:1.55;margin-top:auto}
+.card-title{font-size:23px;font-weight:900;line-height:1.32;letter-spacing:.01em}
+.card-desc{color:var(--muted);font-size:14px;line-height:1.55;margin-top:auto}
 
 /* 空态 */
 .empty{
@@ -432,7 +455,11 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 /* ===== 页脚 ===== */
 .footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:13px}
 .footer-in{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-.foot-deco{font-family:var(--font-mono);font-size:10px;letter-spacing:.28em;color:var(--muted);opacity:.55;text-transform:uppercase}
+.foot-deco{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:.28em;color:var(--muted);
+  opacity:.55;text-transform:uppercase;writing-mode:vertical-rl;display:flex;flex-direction:column;gap:8px;
+}
+.foot-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
 .footer small{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:lowercase}
 
 /* ===== 播放弹层 ===== */
@@ -483,7 +510,6 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 
 /* ===== 手机端专属元素（桌面默认可用，移动端增强） ===== */
 .hero-rail{display:none}
-.f-search-toggle{display:none}
 .card-more{
   display:inline-flex;align-items:center;gap:8px;align-self:flex-end;
   margin-top:6px;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;
@@ -496,6 +522,9 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   .hero-grid{grid-template-columns:1fr;gap:40px}
   .hero-side{display:none}
   .hero-scroll{display:none}
+  .hero-eyebrow{display:none}
+  .hero-main{padding-left:0}
+  .hero-lens{width:340px;height:340px;right:-110px;bottom:-110px;opacity:.32}
   .grid{grid-template-columns:repeat(2,1fr);gap:22px}
   .about-grid{grid-template-columns:1fr;gap:32px}
   .about-stats{grid-template-columns:repeat(3,1fr)}
@@ -505,6 +534,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   .chip .cnt{font-size:11px}
   .f-glabel{font-size:18px}
   .f-glabel::after{height:18px}
+  .f-deco{display:none}
 }
 @media (max-width:560px){
   .head-in{height:58px}
@@ -526,16 +556,16 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   .f-row::-webkit-scrollbar{display:none}
   .f-row .chip{flex:0 0 auto}
   /* 搜索：折叠为图标，点击展开 */
-  .f-search{display:none;margin-left:0}
+  .f-search{margin-left:auto;display:flex;align-items:center}
+  .f-search input{display:none}
   .f-search-toggle{
     display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
-    width:56px;height:56px;margin-left:auto;border:2px solid var(--line);
+    width:56px;height:56px;border:2px solid var(--line);
     background:var(--ink2);color:var(--acid);cursor:pointer;
     position:sticky;right:0;z-index:2;
   }
   .f-search-toggle svg{width:24px;height:24px}
-  .filters.search-open .f-row{flex-wrap:wrap;overflow-x:visible}
-  .filters.search-open .f-search{display:block;width:100%;margin-top:8px}
+  .filters.search-open .f-search{width:100%}
   .filters.search-open .f-search input{display:block;width:100%;font-size:16px;padding:14px 18px}
   .filters.search-open .f-search-toggle{display:none}
   /* 卡片：播放按钮常显 + VIEW MORE */
@@ -552,9 +582,9 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
     display:flex;flex-direction:column;align-items:center;gap:16px;
     position:absolute;right:12px;top:104px;z-index:0;
     font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;
-    color:var(--acid);opacity:.55;writing-mode:vertical-rl;text-transform:uppercase;
+    color:var(--acid);opacity:.55;text-transform:uppercase;
   }
-  .hero-rail span{display:flex;align-items:center;gap:8px}
+  .hero-rail span{display:flex;align-items:center;gap:8px;writing-mode:vertical-rl}
   .hero-rail span::after{content:"";width:1px;height:24px;background:var(--line)}
   .hero-rail span:last-child::after{display:none}
 }
@@ -583,27 +613,34 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 <main>
 <!-- ===== Hero ===== -->
 <section class="hero">
+  <div class="hero-lens" aria-hidden="true">
+    <svg viewBox="0 0 400 400" fill="none">
+      <circle cx="200" cy="200" r="196" stroke="currentColor" stroke-opacity=".22" stroke-width="2"/>
+      <circle cx="200" cy="200" r="168" stroke="currentColor" stroke-opacity=".16" stroke-width="1.5"/>
+      <circle cx="200" cy="200" r="136" stroke="currentColor" stroke-opacity=".18" stroke-width="1.5"/>
+      <circle cx="200" cy="200" r="100" stroke="currentColor" stroke-opacity=".14" stroke-width="1.5"/>
+      <circle cx="200" cy="200" r="62" stroke="currentColor" stroke-opacity=".2" stroke-width="2"/>
+      <path d="M200 0L218 82L200 40L182 82Z" fill="currentColor" fill-opacity=".10"/>
+      <path d="M200 400L218 318L200 360L182 318Z" fill="currentColor" fill-opacity=".10"/>
+      <path d="M0 200L82 218L40 200L82 182Z" fill="currentColor" fill-opacity=".10"/>
+      <path d="M400 200L318 218L360 200L318 182Z" fill="currentColor" fill-opacity=".10"/>
+    </svg>
+  </div>
   <div class="container hero-grid">
     <div class="hero-main">
-      <p class="hero-eyebrow">个人作品集 · PORTFOLIO</p>
+      <p class="hero-eyebrow" aria-hidden="true">IDEAS IN MOTION</p>
       <h1 class="hero-title">
-        <span class="t-1">拍得好看，</span>
-        <span class="t-2">更拍得有效。</span>
+        <span class="t-1">用影像</span>
+        <span class="t-2">创造更多可能</span>
       </h1>
-      <p class="hero-sub">从品牌 TVC 到短剧，再到跑量的信息流广告——把每一个镜头拍成结果。</p>
+      <p class="hero-sub">从创意到影像，用作品讲述品牌的故事。</p>
       <p class="hero-byline">王龙 · 编导 / Director</p>
       <p class="hero-intro">做过 <b>TVC 宣传片</b>、<b>短剧</b> 与 <b>短视频信息流广告</b>，覆盖电商（保健品 · 药品 · 个护 · 彩妆 · 服装 · 宠物）与网服（语音社交 · 下沉社交 · 金融）投放场景。</p>
-      <a class="btn" href="#works">查看作品
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
     </div>
     <aside class="hero-side" aria-hidden="true">
       <div class="hs-col hs-words"><span>FILM</span><span>BRAND</span><span>STORY</span></div>
       <div class="hs-col hs-nums"><span>01</span><span>02</span><span>03</span></div>
     </aside>
-  </div>
-  <div class="hero-scroll" aria-hidden="true">滚动查看
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg>
   </div>
   <div class="hero-rail" aria-hidden="true">
     <span>01 · TVC</span><span>02 · 短剧</span><span>03 · 信息流</span>
@@ -626,10 +663,11 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
         <div id="catsWrap" style="display:contents"></div>
         <label class="f-search">
           <input type="search" id="searchInput" placeholder="搜索作品 / 品类…" aria-label="搜索作品">
+          <button type="button" id="searchToggle" class="f-search-toggle" aria-label="打开搜索">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          </button>
         </label>
-        <button type="button" id="searchToggle" class="f-search-toggle" aria-label="打开搜索">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-        </button>
+        <span class="f-deco" aria-hidden="true"><b>GOOD</b><b>IDEAS</b><b>BETTER STORIES</b></span>
       </div>
       <div class="f-row f-subrow" id="rowSubs" role="group" aria-label="细分方向筛选"></div>
       <div class="f-row f-tagrow" id="rowTags" role="group" aria-label="细分品类筛选"></div>
@@ -689,9 +727,11 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 <!-- ===== 页脚 ===== -->
 <footer class="footer">
   <div class="container footer-in">
-    <span class="foot-deco" aria-hidden="true">CREATIVE · FILM · COMMERCIAL</span>
-    <span>© 2026 王龙 · 编导作品集</span>
-    <small>作品链接来自 Bilibili</small>
+    <span class="foot-deco" aria-hidden="true"><i>CREATIVE</i><i>FILM</i><i>COMMERCIAL</i></span>
+    <span class="foot-right">
+      <span>© 2026 王龙 · 编导作品集</span>
+      <small>作品链接来自 Bilibili</small>
+    </span>
   </div>
 </footer>
 
