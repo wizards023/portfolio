@@ -113,7 +113,14 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   -webkit-text-stroke:2px var(--acid);
 }
 .hero-sub{margin-top:28px;max-width:34em;color:var(--muted);font-size:16px}
-.hero-side{padding-bottom:8px}
+.hero-byline{
+  margin-top:18px;font-family:var(--font-mono);font-size:13px;letter-spacing:.18em;
+  color:var(--acid);text-transform:lowercase;
+}
+.hero-side{padding-bottom:8px;display:flex;gap:18px;align-items:flex-start;justify-content:flex-end}
+.hs-col{display:flex;flex-direction:column;gap:26px;align-items:center;writing-mode:vertical-rl}
+.hs-words span{font-family:var(--font-mono);font-size:11px;letter-spacing:.34em;color:var(--muted)}
+.hs-nums span{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--acid)}
 .hero-name{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;letter-spacing:.02em}
 .hero-name .ph{color:var(--muted)}
 .hero-role{
@@ -158,11 +165,12 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .f-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .f-row + .f-row{margin-top:20px}
 .chip{
-  display:inline-flex;align-items:center;gap:12px;
-  border:2px solid var(--line);padding:16px 32px;font-size:28px;font-weight:900;
+  display:inline-flex;align-items:center;gap:9px;
+  border:1.5px solid var(--line);padding:9px 20px;font-size:16px;font-weight:700;
   color:var(--muted);transition:all .2s;white-space:nowrap;letter-spacing:.02em;
+  border-radius:999px;cursor:pointer;background:transparent;
 }
-.chip .cnt{font-family:var(--font-mono);font-size:18px;font-weight:500;opacity:.85}
+.chip .cnt{font-family:var(--font-mono);font-size:12px;font-weight:500;opacity:.85}
 .chip.cat{color:var(--cat)}
 .chip.cat .cnt{color:var(--cat);opacity:.85}
 .chip.sub{color:var(--sub)}
@@ -190,7 +198,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .f-glabel::after{content:"";width:1px;height:22px;background:var(--line);margin-left:14px;margin-right:4px}
 
 /* 网格 */
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .card{
   --cat:var(--paper);
   text-align:left;background:var(--ink2);border:1px solid var(--line);
@@ -344,10 +352,15 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   padding:4px 9px;border:1px solid var(--line);text-transform:lowercase;
 }
 .card-idx{
-  position:absolute;right:12px;top:10px;
+  position:absolute;left:12px;top:10px;
   font-family:var(--font-mono);font-size:26px;font-weight:700;
   color:transparent;-webkit-text-stroke:1px var(--cat);
   opacity:.9;line-height:1;
+}
+.card-side{
+  position:absolute;left:14px;top:48px;
+  font-family:var(--font-mono);font-size:10px;letter-spacing:.3em;
+  color:var(--cat);writing-mode:vertical-rl;opacity:.9;
 }
 .card-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:9px;flex:1}
 .card-meta{display:flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--muted)}
@@ -419,6 +432,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 /* ===== 页脚 ===== */
 .footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:13px}
 .footer-in{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.foot-deco{font-family:var(--font-mono);font-size:10px;letter-spacing:.28em;color:var(--muted);opacity:.55;text-transform:uppercase}
 .footer small{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:lowercase}
 
 /* ===== 播放弹层 ===== */
@@ -467,28 +481,35 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .rv{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .rv.in{opacity:1;transform:none}
 
-/* ===== 手机端专属元素（默认隐藏，移动端显示） ===== */
+/* ===== 手机端专属元素（桌面默认可用，移动端增强） ===== */
 .hero-rail{display:none}
 .f-search-toggle{display:none}
-.card-more{display:none}
+.card-more{
+  display:inline-flex;align-items:center;gap:8px;align-self:flex-end;
+  margin-top:6px;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;
+  color:var(--cat);font-weight:700;text-transform:uppercase;
+}
+.card-more svg{width:14px;height:14px}
 
 /* ===== 响应式 ===== */
 @media (max-width:900px){
   .hero-grid{grid-template-columns:1fr;gap:40px}
+  .hero-side{display:none}
   .hero-scroll{display:none}
-  .grid{grid-template-columns:1fr;gap:20px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:22px}
   .about-grid{grid-template-columns:1fr;gap:32px}
   .about-stats{grid-template-columns:repeat(3,1fr)}
   .nav a.nav-link{display:none}
   .f-search input{width:220px}
-  .chip{padding:14px 26px;font-size:24px}
-  .chip .cnt{font-size:16px}
+  .chip{padding:9px 18px;font-size:15px}
+  .chip .cnt{font-size:11px}
   .f-glabel{font-size:18px}
   .f-glabel::after{height:18px}
 }
 @media (max-width:560px){
   .head-in{height:58px}
   .filters{top:58px}
+  .grid{grid-template-columns:1fr;gap:20px}
   .chip{padding:12px 22px;font-size:20px}
   .chip .cnt{font-size:14px}
   .f-glabel{font-size:15px}
@@ -570,14 +591,15 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
         <span class="t-2">更拍得有效。</span>
       </h1>
       <p class="hero-sub">从品牌 TVC 到短剧，再到跑量的信息流广告——把每一个镜头拍成结果。</p>
-    </div>
-    <aside class="hero-side">
-      <p class="hero-name">王龙</p>
-      <p class="hero-role">编导 / Director</p>
+      <p class="hero-byline">王龙 · 编导 / Director</p>
       <p class="hero-intro">做过 <b>TVC 宣传片</b>、<b>短剧</b> 与 <b>短视频信息流广告</b>，覆盖电商（保健品 · 药品 · 个护 · 彩妆 · 服装 · 宠物）与网服（语音社交 · 下沉社交 · 金融）投放场景。</p>
       <a class="btn" href="#works">查看作品
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
+    </div>
+    <aside class="hero-side" aria-hidden="true">
+      <div class="hs-col hs-words"><span>FILM</span><span>BRAND</span><span>STORY</span></div>
+      <div class="hs-col hs-nums"><span>01</span><span>02</span><span>03</span></div>
     </aside>
   </div>
   <div class="hero-scroll" aria-hidden="true">滚动查看
@@ -667,6 +689,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 <!-- ===== 页脚 ===== -->
 <footer class="footer">
   <div class="container footer-in">
+    <span class="foot-deco" aria-hidden="true">CREATIVE · FILM · COMMERCIAL</span>
     <span>© 2026 王龙 · 编导作品集</span>
     <small>作品链接来自 Bilibili</small>
   </div>
@@ -815,10 +838,10 @@ const WORKS = [
 ];
 
 const CATS = {
-  all:  {label:'全部',        color:'var(--paper)'},
-  tvc:  {label:'TVC宣传片',   color:'var(--aqua)'},
-  drama:{label:'短剧',        color:'var(--signal)'},
-  feed: {label:'信息流广告',  color:'var(--acid)'}
+  all:  {label:'全部',        color:'var(--paper)', side:''},
+  tvc:  {label:'TVC宣传片',   color:'var(--aqua)',  side:'TVC'},
+  drama:{label:'短剧',        color:'var(--signal)',side:'SHORT DRAMA'},
+  feed: {label:'信息流广告',  color:'var(--acid)',  side:'COMMERCIAL'}
 };
 const SUBS = {
   ecom:{label:'电商', color:'var(--acid)', tags:['保健品','药品','个护','彩妆','服装','宠物']},
@@ -884,6 +907,7 @@ function cardHtml(w,i){
       <span class="card-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg></span>
       ${!w.real?`<span class="card-badge">示例</span>`:''}
       <span class="card-idx" aria-hidden="true">${fmt(i+1)}</span>
+      ${c.side?`<span class="card-side" aria-hidden="true">${c.side}</span>`:''}
     </span>
     <span class="card-body">
       <span class="card-meta"><span class="tag">${c.label}</span><span>${w.year}</span><span>${w.role}</span>${w.tag?`<span>${w.tag}</span>`:''}</span>
