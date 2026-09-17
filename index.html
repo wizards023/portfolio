@@ -467,6 +467,11 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .rv{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .rv.in{opacity:1;transform:none}
 
+/* ===== 手机端专属元素（默认隐藏，移动端显示） ===== */
+.hero-rail{display:none}
+.f-search-toggle{display:none}
+.card-more{display:none}
+
 /* ===== 响应式 ===== */
 @media (max-width:900px){
   .hero-grid{grid-template-columns:1fr;gap:40px}
@@ -486,20 +491,51 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   .filters{top:58px}
   .chip{padding:12px 22px;font-size:20px}
   .chip .cnt{font-size:14px}
-  .f-row{gap:12px}
   .f-glabel{font-size:15px}
   .f-glabel::after{height:15px}
-  .f-search{width:100%;margin-left:0;margin-top:2px}
-  .f-search input{width:100%}
   .about-stats{grid-template-columns:1fr}
   .card-idx{font-size:22px}
   .card-desc{font-size:14px}
   .card-meta{font-size:12px}
   .card-badge{font-size:11px}
-  .f-search input{width:100%;font-size:16px}
-  .f-search{margin-top:4px}
   .hero-title .t-2{-webkit-text-stroke:1.5px var(--acid)}
   .contact-title .c-2{-webkit-text-stroke:1.5px var(--paper)}
+  /* 筛选分类：单行横滚 */
+  .f-row{flex-wrap:nowrap;overflow-x:auto;gap:12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .f-row::-webkit-scrollbar{display:none}
+  .f-row .chip{flex:0 0 auto}
+  /* 搜索：折叠为图标，点击展开 */
+  .f-search{display:none;margin-left:0}
+  .f-search-toggle{
+    display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
+    width:56px;height:56px;margin-left:auto;border:2px solid var(--line);
+    background:var(--ink2);color:var(--acid);cursor:pointer;
+    position:sticky;right:0;z-index:2;
+  }
+  .f-search-toggle svg{width:24px;height:24px}
+  .filters.search-open .f-row{flex-wrap:wrap;overflow-x:visible}
+  .filters.search-open .f-search{display:block;width:100%;margin-top:8px}
+  .filters.search-open .f-search input{display:block;width:100%;font-size:16px;padding:14px 18px}
+  .filters.search-open .f-search-toggle{display:none}
+  /* 卡片：播放按钮常显 + VIEW MORE */
+  .card-play{opacity:1;transform:scale(1);background:rgba(15,15,18,.6)}
+  .card-more{
+    display:inline-flex;align-items:center;gap:8px;align-self:flex-end;
+    margin-top:4px;font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;
+    color:var(--cat);font-weight:700;text-transform:uppercase;
+  }
+  .card-more svg{width:15px;height:15px}
+  /* hero 右侧竖排装饰 */
+  .hero-main{padding-right:24px}
+  .hero-rail{
+    display:flex;flex-direction:column;align-items:center;gap:16px;
+    position:absolute;right:12px;top:104px;z-index:0;
+    font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;
+    color:var(--acid);opacity:.55;writing-mode:vertical-rl;text-transform:uppercase;
+  }
+  .hero-rail span{display:flex;align-items:center;gap:8px}
+  .hero-rail span::after{content:"";width:1px;height:24px;background:var(--line)}
+  .hero-rail span:last-child::after{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -547,6 +583,9 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   <div class="hero-scroll" aria-hidden="true">滚动查看
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg>
   </div>
+  <div class="hero-rail" aria-hidden="true">
+    <span>01 · TVC</span><span>02 · 短剧</span><span>03 · 信息流</span>
+  </div>
 </section>
 
 <!-- ===== 作品 ===== -->
@@ -566,6 +605,9 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
         <label class="f-search">
           <input type="search" id="searchInput" placeholder="搜索作品 / 品类…" aria-label="搜索作品">
         </label>
+        <button type="button" id="searchToggle" class="f-search-toggle" aria-label="打开搜索">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        </button>
       </div>
       <div class="f-row f-subrow" id="rowSubs" role="group" aria-label="细分方向筛选"></div>
       <div class="f-row f-tagrow" id="rowTags" role="group" aria-label="细分品类筛选"></div>
@@ -847,6 +889,7 @@ function cardHtml(w,i){
       <span class="card-meta"><span class="tag">${c.label}</span><span>${w.year}</span><span>${w.role}</span>${w.tag?`<span>${w.tag}</span>`:''}</span>
       <span class="card-title">${w.title}</span>
       <span class="card-desc">${w.desc}</span>
+      <span class="card-more">VIEW MORE<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </span>
   </button>`;
 }
@@ -876,6 +919,10 @@ $('#rowTags').addEventListener('click', e => {
   renderAll();
 });
 $('#searchInput').addEventListener('input', e => { state.q = e.target.value; renderGrid(); });
+$('#searchToggle').addEventListener('click', () => {
+  const open = $('#filters').classList.toggle('search-open');
+  if(open){ $('#searchInput').focus(); }
+});
 $('#grid').addEventListener('click', e => {
   const card = e.target.closest('.card'); if(!card) return;
   const w = WORKS.find(x => x.id === +card.dataset.id);
