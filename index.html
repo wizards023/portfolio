@@ -1013,6 +1013,12 @@ const SUBS = {
   ecom:{label:'电商', en:'E-commerce', color:'var(--acid)', tags:['保健品','药品','个护','彩妆','服装','宠物','3C数码']},
   net: {label:'网服', en:'Web Service',color:'var(--aqua)', tags:['语音社交','下沉社交','金融']}
 };
+/* 每个细分分类独立配色 */
+const TAG_COLORS = {
+  '保健品':'#7ED957','药品':'#5B8CFF','个护':'#FFB86B','彩妆':'#FF7AB8',
+  '服装':'#C9A7FF','宠物':'#FFD166','3C数码':'#6BE0E0',
+  '语音社交':'#2BD8FF','下沉社交':'#FF8A5C','金融':'#E8C86B'
+};
 const MARQUEE_ITEMS = [
   'TVC宣传片','短剧','信息流广告',
   '电商 · 保健品','电商 · 药品','电商 · 个护','电商 · 彩妆','电商 · 服装','电商 · 宠物','电商 · 3C数码',
@@ -1156,7 +1162,7 @@ function renderSubCards(){
   const s = SUBS[state.view];
   $('#feedSubCards').innerHTML = s.tags.map((t,i) => {
     const n = tagCount(t);
-    return `<a class="cat-card feed-sub-card rv" href="javascript:void(0)" onclick="pickTag('${t}')" style="--cat:${s.color}">
+    return `<a class="cat-card feed-sub-card rv" href="javascript:void(0)" onclick="pickTag('${t}')" style="--cat:${TAG_COLORS[t]||s.color}">
       <div class="cat-card-top">
         <span class="cat-card-idx">${fmt(i+1)}</span>
         <span class="cat-card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
