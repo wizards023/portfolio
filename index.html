@@ -248,6 +248,13 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .cat-card-num{font-family:var(--font-mono);font-size:clamp(2.2rem,3.2vw,3rem);font-weight:700;color:var(--cat)}
 .cat-card-label{font-size:13px;color:var(--muted);letter-spacing:.06em}
 
+/* 信息流 · 子场景大卡（电商 / 网服），单列竖排 */
+.feed-subs{display:grid;grid-template-columns:1fr;gap:22px;margin-bottom:40px}
+.feed-sub-card{min-height:230px;justify-content:space-between}
+.feed-sub-card .cat-card-name{font-size:clamp(2.6rem,5vw,4rem);color:var(--cat)}
+.feed-sub-card .cat-card-en{margin-top:10px}
+@media(max-width:640px){.feed-sub-card{min-height:180px;padding:26px 22px}}
+
 /* 二级页 · 作品列表 */
 .list-view{min-height:70vh}
 .list-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:34px}
@@ -762,6 +769,8 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
       <span class="list-count" id="listCount"></span>
     </div>
 
+    <div class="feed-subs" id="feedSubCards" hidden></div>
+
     <div class="list-tools" id="listTools">
       <div class="f-row" id="listSubs" role="group" aria-label="子分类筛选"></div>
       <div class="f-row list-search-row">
@@ -1122,10 +1131,44 @@ function renderGrid(){
   $('#listSubCount').textContent = fmt(list.length);
   observeReveal();
 }
+function renderFeedSubs(){
+  const subs = [
+    ['ecom','电商','E-commerce','保健品 / 药品 / 个护 / 彩妆 / 服装 / 宠物 / 3C数码'],
+    ['net','网服','Web Service','语音社交 / 下沉社交 / 金融']
+  ];
+  $('#feedSubCards').innerHTML = subs.map(([k,label,en,hint],i) => {
+    const s = SUBS[k];
+    return `<a class="cat-card feed-sub-card rv" href="#/list/${k}" style="--cat:${s.color}">
+      <div class="cat-card-top">
+        <span class="cat-card-idx">${fmt(i+1)}</span>
+        <span class="cat-card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="cat-card-body">
+        <div class="cat-card-name">${label}</div>
+        <div class="cat-card-en">${en}</div>
+        <div class="cat-card-meta"><span class="cat-card-label">${hint}</span></div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
 function renderList(){
   const v = VIEWS[state.view];
   $('#listTitle').textContent = v.label;
   $('#listTitleEn').textContent = v.en;
+  if(state.view==='feed'){
+    $('#feedSubCards').hidden = false;
+    $('#listTools').hidden = true;
+    $('#listGrid').hidden = true;
+    $('#listEmpty').hidden = true;
+    $('#listCount').style.display = 'none';
+    renderFeedSubs();
+    return;
+  }
+  $('#feedSubCards').hidden = true;
+  $('#listTools').hidden = false;
+  $('#listGrid').hidden = false;
+  $('#listCount').style.display = '';
   $('#listCount').innerHTML = `共 <b>${fmt(WORKS.length)}</b> 部作品`;
   renderSubs();
   renderGrid();
