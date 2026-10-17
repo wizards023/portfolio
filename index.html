@@ -24,6 +24,7 @@
 }
 /* ===== 基础 ===== */
 *{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 body{
   background:var(--ink);
@@ -760,7 +761,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 <!-- ===== 二级页 · 作品列表 ===== -->
 <section class="list-view sec-pad" id="listView" hidden>
   <div class="container">
-    <div class="list-head">
+    <div class="list-head" id="listHead">
       <a class="list-back" href="#/"><span class="list-back-arrow" aria-hidden="true">←</span>返回分类</a>
       <div class="list-head-title">
         <p class="sec-eyebrow">作品</p>
@@ -778,7 +779,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
           <input type="search" id="listSearch" placeholder="搜索作品 / 品类 / 年份…" aria-label="搜索作品">
         </label>
-        <span class="list-tool-note">共 <b id="listSubCount"></b> 部 · 点击卡片在站内播放</span>
+        <span class="list-tool-note" hidden>共 <b id="listSubCount"></b> 部</span>
       </div>
     </div>
 
@@ -819,7 +820,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
     <div class="contact-rows">
       <div class="c-row">
         <span class="c-label">邮箱 / Email</span>
-        <span class="c-value"><span>275299673@qq.com</span>
+        <span class="c-value"><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="62505557505b5b5455512213134c010d0f">[email&#160;protected]</a></span>
           <button class="copy-btn" id="copyMail">复制</button>
         </span>
       </div>
@@ -861,7 +862,7 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 
 <div class="toast" id="toast" role="status"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ============================================================
    作品数据配置说明（替换为正式作品时修改这里即可）：
    1. title / desc / year / role 改成真实信息；
@@ -1108,7 +1109,7 @@ function renderSubs(){
     chips = s.tags.map(t =>
       `<button class="chip tag ${state.tag===t?'on':''}" data-tag="${t}" onclick="pickTag('${t}')" style="--tag:${s.color}"><span>${t}</span><span class="cnt">${fmt(tagCount(t))}</span></button>`).join('');
   }
-  host.innerHTML = chips ? `<span class="f-glabel">细分</span>` + chips : '';
+  host.innerHTML = ((v==='ecom'||v==='net') ? `<a class="list-back" href="#/"><span class="list-back-arrow" aria-hidden="true">←</span>返回分类</a>` : '') + chips;
 }
 
 /* ---- 作品网格 ---- */
@@ -1156,6 +1157,7 @@ function renderFeedSubs(){
       </div>
     </a>`;
   }).join('');
+  observeReveal();
 }
 
 function renderSubCards(){
@@ -1173,13 +1175,15 @@ function renderSubCards(){
       </div>
     </a>`;
   }).join('');
+  observeReveal();
 }
 
 function renderList(){
   const v = VIEWS[state.view];
   $('#listTitle').textContent = v.label;
   $('#listTitleEn').textContent = v.en;
-  const cardLayer = (state.view==='feed') || ((state.view==='ecom'||state.view==='net') && !state.tag);
+  const cardLayer = state.view==='feed' || ((state.view==='ecom'||state.view==='net') && !state.tag);
+  $('#listHead').hidden = !cardLayer;
   if(cardLayer){
     $('#feedSubCards').hidden = false;
     $('#listTools').hidden = true;
