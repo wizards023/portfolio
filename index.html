@@ -1043,7 +1043,7 @@ const catCount = c => WORKS.filter(w => w.cat===c).length;
 const subCount = s => WORKS.filter(w => w.sub===s).length;
 const tagCount = t => WORKS.filter(w => w.tag===t).length;
 window.pickSub = k => { state.sub = (state.sub===k?'':k); state.tag=''; renderSubs(); renderGrid(); };
-window.pickTag = t => { state.tag = (state.tag===t?'':t); renderSubs(); renderGrid(); };
+window.pickTag = t => { state.tag = (state.tag===t?'':t); renderList(); };
 
 /* ---- 一级页 · 分类入口卡 ---- */
 function renderHomeCards(){
@@ -1152,17 +1152,35 @@ function renderFeedSubs(){
   }).join('');
 }
 
+function renderSubCards(){
+  const s = SUBS[state.view];
+  $('#feedSubCards').innerHTML = s.tags.map((t,i) => {
+    const n = tagCount(t);
+    return `<a class="cat-card feed-sub-card rv" href="javascript:void(0)" onclick="pickTag('${t}')" style="--cat:${s.color}">
+      <div class="cat-card-top">
+        <span class="cat-card-idx">${fmt(i+1)}</span>
+        <span class="cat-card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="cat-card-body">
+        <div class="cat-card-name">${t}</div>
+        <div class="cat-card-en">${fmt(n)} 部作品</div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
 function renderList(){
   const v = VIEWS[state.view];
   $('#listTitle').textContent = v.label;
   $('#listTitleEn').textContent = v.en;
-  if(state.view==='feed'){
+  const cardLayer = (state.view==='feed') || ((state.view==='ecom'||state.view==='net') && !state.tag);
+  if(cardLayer){
     $('#feedSubCards').hidden = false;
     $('#listTools').hidden = true;
     $('#listGrid').hidden = true;
     $('#listEmpty').hidden = true;
     $('#listCount').style.display = 'none';
-    renderFeedSubs();
+    if(state.view==='feed') renderFeedSubs(); else renderSubCards();
     return;
   }
   $('#feedSubCards').hidden = true;
