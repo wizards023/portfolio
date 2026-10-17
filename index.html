@@ -745,7 +745,6 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
         <p class="sec-eyebrow">01</p>
         <h2 class="sec-title">作品分类<span class="sec-title-en">Categories</span></h2>
       </div>
-      <p class="works-note">选择一个分类，进入对应作品列表。<b>111</b> 部作品 · 全部来自 B站。</p>
     </div>
     <div class="cat-cards" id="catCards"></div>
   </div>
@@ -1040,14 +1039,13 @@ window.pickTag = t => { state.tag = (state.tag===t?'':t); renderSubs(); renderGr
 /* ---- 一级页 · 分类入口卡 ---- */
 function renderHomeCards(){
   $('#catCards').innerHTML = HOME_CARDS.map((c,i) => {
-    const num = catCount(c.key);
     return `<a class="cat-card rv" href="#/list/${c.key}" style="--cat:${c.color}">
       <div class="cat-card-top">
         <span class="cat-card-idx">${fmt(i+1)}</span>
         <span class="cat-card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </div>
       <div class="cat-card-body">
-        <div class="cat-card-name">${c.label}<b>${fmt(num)}</b></div>
+        <div class="cat-card-name">${c.label}</div>
         <div class="cat-card-en">${c.en}</div>
         <div class="cat-card-meta"><span class="cat-card-label">${c.hint}</span></div>
       </div>
