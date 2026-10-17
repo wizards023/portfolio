@@ -975,14 +975,11 @@ const MARQUEE_ITEMS = [
   '网服 · 语音社交','网服 · 下沉社交','网服 · 金融'
 ];
 
-/* 一级页 · 6 个分类选项卡（全部 / TVC / 短剧 / 信息流 / 电商 / 网服） */
+/* 一级页 · 3 个分类选项卡（TVC / 短剧 / 信息流广告） */
 const HOME_CARDS = [
-  {key:'all',  label:'全部',        en:'All Works',      color:'var(--paper)', hint:'3 大类 · 9 细分'},
   {key:'tvc',  label:'TVC宣传片',   en:'TVC',            color:'var(--aqua)',  hint:'品牌片 / 企业宣传片'},
   {key:'drama',label:'短剧',        en:'Short Drama',    color:'var(--signal)',hint:'系列短剧 / 剧情短片'},
-  {key:'feed', label:'信息流广告',  en:'Feed Ads',       color:'var(--acid)',  hint:'电商 + 网服投放'},
-  {key:'ecom', label:'电商',        en:'E-commerce',     color:'var(--acid)',  hint:'6 大品类投放'},
-  {key:'net',  label:'网服',        en:'Web Service',    color:'var(--aqua)',  hint:'语音 / 下沉 / 金融'}
+  {key:'feed', label:'信息流广告',  en:'Feed Ads',       color:'var(--acid)',  hint:'电商 + 网服投放'}
 ];
 
 /* 二级页视图配置：标题、副标题、子筛 chips */
@@ -1005,7 +1002,7 @@ const tagCount = t => WORKS.filter(w => w.tag===t).length;
 /* ---- 一级页 · 分类入口卡 ---- */
 function renderHomeCards(){
   $('#catCards').innerHTML = HOME_CARDS.map((c,i) => {
-    const num = c.key==='all' ? WORKS.length : (c.key==='ecom'||c.key==='net' ? subCount(c.key) : catCount(c.key));
+    const num = catCount(c.key);
     return `<a class="cat-card rv" href="#/list/${c.key}" style="--cat:${c.color}">
       <div class="cat-card-top">
         <span class="cat-card-idx">${fmt(i+1)}</span>
