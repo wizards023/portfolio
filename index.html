@@ -1034,6 +1034,8 @@ const fmt = n => String(n).padStart(2,'0');
 const catCount = c => WORKS.filter(w => w.cat===c).length;
 const subCount = s => WORKS.filter(w => w.sub===s).length;
 const tagCount = t => WORKS.filter(w => w.tag===t).length;
+window.pickSub = k => { state.sub = (state.sub===k?'':k); state.tag=''; renderSubs(); renderGrid(); };
+window.pickTag = t => { state.tag = (state.tag===t?'':t); renderSubs(); renderGrid(); };
 
 /* ---- 一级页 · 分类入口卡 ---- */
 function renderHomeCards(){
@@ -1079,14 +1081,19 @@ function renderSubs(){
   let chips = '';
   if(v==='all'){
     chips = Object.entries(CATS).map(([k,c]) =>
-      `<button class="chip sub ${state.sub===k?'on':''}" data-sub="${k}" style="--sub:${c.color}"><span>${c.label}</span><span class="cnt">${fmt(catCount(k))}</span></button>`).join('');
+      `<button class="chip sub ${state.sub===k?'on':''}" data-sub="${k}" onclick="pickSub('${k}')" style="--sub:${c.color}"><span>${c.label}</span><span class="cnt">${fmt(catCount(k))}</span></button>`).join('');
   } else if(v==='feed'){
     chips = Object.entries(SUBS).map(([k,s]) =>
-      `<button class="chip sub ${state.sub===k?'on':''}" data-sub="${k}" style="--sub:${s.color}"><span>${s.label}</span><span class="cnt">${fmt(subCount(k))}</span></button>`).join('');
+      `<button class="chip sub ${state.sub===k?'on':''}" data-sub="${k}" onclick="pickSub('${k}')" style="--sub:${s.color}"><span>${s.label}</span><span class="cnt">${fmt(subCount(k))}</span></button>`).join('');
+    if(state.sub && SUBS[state.sub]){
+      const s = SUBS[state.sub];
+      chips += s.tags.map(t =>
+        `<button class="chip tag ${state.tag===t?'on':''}" data-tag="${t}" onclick="pickTag('${t}')" style="--tag:${s.color}"><span>${t}</span><span class="cnt">${fmt(tagCount(t))}</span></button>`).join('');
+    }
   } else if(v==='ecom'||v==='net'){
     const s = SUBS[v];
     chips = s.tags.map(t =>
-      `<button class="chip tag ${state.tag===t?'on':''}" data-tag="${t}" style="--tag:${s.color}"><span>${t}</span><span class="cnt">${fmt(tagCount(t))}</span></button>`).join('');
+      `<button class="chip tag ${state.tag===t?'on':''}" data-tag="${t}" onclick="pickTag('${t}')" style="--tag:${s.color}"><span>${t}</span><span class="cnt">${fmt(tagCount(t))}</span></button>`).join('');
   }
   host.innerHTML = chips ? `<span class="f-glabel">细分</span>` + chips : '';
 }
@@ -1155,16 +1162,6 @@ function route(){
 window.addEventListener('hashchange', route);
 
 /* ---- 事件 ---- */
-$('#listSubs').addEventListener('click', e => {
-  const b = e.target.closest('.chip.sub, .chip.tag'); if(!b) return;
-  if(b.classList.contains('chip.sub')){
-    state.sub = (state.sub===b.dataset.sub ? '' : b.dataset.sub);
-    state.tag = '';
-  } else {
-    state.tag = (state.tag===b.dataset.tag ? '' : b.dataset.tag);
-  }
-  renderSubs(); renderGrid();
-});
 $('#listSearch').addEventListener('input', e => { state.q = e.target.value; renderGrid(); });
 $('#listGrid').addEventListener('click', e => {
   const card = e.target.closest('.card'); if(!card) return;
